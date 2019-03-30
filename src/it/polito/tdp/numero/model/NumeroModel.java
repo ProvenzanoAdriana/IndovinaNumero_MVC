@@ -1,8 +1,12 @@
 package it.polito.tdp.numero.model;
 
 import java.security.InvalidParameterException;
+import java.util.HashMap;
+import java.util.HashSet;
 import java.util.LinkedList;
 import java.util.List;
+import java.util.Map;
+import java.util.Set;
 
 import javafx.beans.property.IntegerProperty;
 import javafx.beans.property.SimpleIntegerProperty;
@@ -12,7 +16,9 @@ public class NumeroModel {
 	private final int NMAX=100; 
 	private final int TMAX=8; 
 	
-	private List<Integer> tentativi; 
+	//private List<Integer> tentativi; 
+	//private Map<Integer,Boolean> tentativi; 
+	private Set<Integer> tentativi; 
 	
 	private int segreto; 
 	//private int tentativiFatti; 
@@ -23,7 +29,12 @@ public class NumeroModel {
 	public NumeroModel() {
 		this.inGioco=false; 
 		tentativiFatti=new SimpleIntegerProperty(); 
-		this.tentativi=new LinkedList<Integer>(); 
+		//this.tentativi=new HashMap<Integer,Boolean>(); 
+		/*for(int i=1; i<=100; i++)
+			tentativi.put(new Integer(i), false); 
+		 */
+		this.tentativi=new HashSet<Integer>(); 
+		
 	}
 	
 	/**
@@ -33,7 +44,10 @@ public class NumeroModel {
     	this.segreto=(int)(Math.random()*NMAX)+1; 	
     	this.tentativiFatti.set(0);; 
     	this.inGioco=true; 
-    	tentativi=new LinkedList<Integer>();
+    	/*this.tentativi=new HashMap<Integer,Boolean>(); 
+		for(int i=1; i<=100; i++)
+			tentativi.put(new Integer(i), false); */
+    	this.tentativi=new HashSet<Integer>(); 
 	}
 	
 	/**
@@ -55,7 +69,7 @@ public class NumeroModel {
 		
 		//gestisci tentativo
 		this.tentativiFatti.set(this.tentativiFatti.get()+1);
-		this.tentativi.add(t); 
+		this.tentativi.add(new Integer(t)); 
 		if(this.tentativiFatti.get()==TMAX) {
 			//la partita è finita perchè ho esaurito i tentativi
 			this.inGioco=false;
@@ -74,7 +88,7 @@ public class NumeroModel {
 		if(t<1 || t>NMAX) {
 			return false; }
 		else {
-			if(this.tentativi.contains(t))
+			if(this.tentativi.contains(new Integer(t)))
 				return false; 
 			else
 				return true; }
